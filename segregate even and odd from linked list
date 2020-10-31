@@ -1,0 +1,126 @@
+#include <iostream>
+using namespace std;
+struct node{
+    int data;
+    struct node* next;
+};
+struct node* head=NULL;
+void create(int data)
+{
+    node *tail;
+   node *newnode=new node;
+   newnode->data=data;
+   if(head==NULL)
+   {
+       head=tail=newnode;
+   }
+   else
+   {
+       tail->next=newnode;
+       tail=newnode;
+   }
+}
+
+void Display()
+{
+    node *p=head;
+    while(p!=NULL)
+    {
+        cout<<p->data<<" ";
+        p=p->next;
+    }
+}
+
+void segregateEvenOdd(node **head_ref)  
+{  
+    node *end = *head_ref;  
+    node *prev = NULL;  
+    node *curr = *head_ref;  
+  
+    /* Get pointer to the last node */
+    while (end->next != NULL)  
+        end = end->next;  
+  
+    node *new_end = end;  
+  
+    /* Consider all odd nodes before the first  
+     even node and move then after end */
+    while (curr->data % 2 != 0 && curr != end)  
+    {  
+        new_end->next = curr;  
+        curr = curr->next;  
+        new_end->next->next = NULL;  
+        new_end = new_end->next;  
+    }  
+  
+    // 10->8->17->17->15  
+    /* Do following steps only if  
+    there is any even node */
+    if (curr->data%2 == 0)  
+    {  
+        /* Change the head pointer to  
+        point to first even node */
+        *head_ref = curr;  
+  
+        /* now current points to 
+        the first even node */
+        while (curr != end)  
+        {  
+            if ( (curr->data) % 2 == 0 )  
+            {  
+                prev = curr;  
+                curr = curr->next;  
+            }  
+            else
+            {  
+                /* break the link between 
+                prev and current */
+                prev->next = curr->next;  
+  
+                /* Make next of curr as NULL */
+                curr->next = NULL;  
+  
+                /* Move curr to end */
+                new_end->next = curr;  
+  
+                /* make curr as new end of list */
+                new_end = curr;  
+  
+                /* Update current pointer to 
+                next of the moved node */
+                curr = prev->next;  
+            }  
+        }  
+    }  
+  
+    /* We must have prev set before executing  
+    lines following this statement */
+    else prev = curr;  
+  
+    /* If there are more than 1 odd nodes  
+    and end of original list is odd then  
+    move this node to end to maintain  
+    same order of odd numbers in modified list */
+    if (new_end != end && (end->data) % 2 != 0)  
+    {  
+        prev->next = end->next;  
+        end->next = NULL;  
+        new_end->next = end;  
+    }  
+    return;  
+}
+int main()
+{
+    create(1);
+    create(2);
+    create(3);
+    create(4);
+    create(5);
+    create(6);
+    create(7);
+    Display();
+    segregateEvenOdd(&head);
+    cout<<"\nlist after segregating even and odd \n";
+    Display();
+    return 0;
+}
