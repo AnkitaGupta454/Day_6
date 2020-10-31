@@ -1,0 +1,66 @@
+#include <iostream>
+using namespace std;
+struct node{
+    int data;
+    struct node* prev;
+    struct node* next;
+};
+struct node* head=NULL;
+struct node* tail=NULL;
+void create(int data)
+{
+   node *newnode=new node;
+   newnode->data=data;
+   if(head==NULL)
+   {
+       head=tail=newnode;
+   }
+   else
+   {
+       tail->next=newnode;
+       tail->next->prev=tail;
+       tail=newnode;
+   }
+}
+
+void Display()
+{
+    node *p=head;
+    while(p!=tail)
+    {
+        cout<<p->data<<" ";
+        p=p->next;
+    }
+    cout<<p->data;
+}
+
+void rotate(int n)
+{
+  node *p=head;
+  while(n--!=0&&p!=tail)
+  {
+      tail->next=p;
+      p=p->next;
+      p->prev=NULL;
+      tail->next->prev=tail;
+      tail->next->next=NULL;
+      tail=tail->next;
+  }
+  head=p;
+}
+
+int main()
+{
+    create(1);
+    create(2);
+    create(3);
+    create(4);
+    create(5);
+    create(6);
+    create(7);
+    Display();
+    rotate(4);
+    cout<<"\n list after rotation \n";
+    Display();
+    return 0;
+}
