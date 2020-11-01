@@ -1,0 +1,68 @@
+  #include <iostream>
+using namespace std;
+struct node{
+    int data;
+    struct node* next;
+};
+struct node *head=NULL;
+void create(int data)
+{
+   struct node *newnode=new node;
+    newnode->data=data;
+    node *temp;
+    if(head==NULL)
+    head=temp=newnode;
+    else
+    {
+        temp->next=newnode;
+        temp=newnode;
+    }
+}
+
+void Display()
+{
+    node *p=head;
+    while(p!=NULL)
+    {
+        cout<<p->data<<" ";
+        p=p->next;
+    }
+}
+
+void sort()
+{
+    node *ptr=head;
+    int count[3]={0,0,0};
+    while(ptr!=NULL)
+    {
+        count[ptr->data]++;
+        ptr=ptr->next;
+    }
+    int i=0;ptr=head;
+    while(ptr!=NULL)
+    {
+        if(count[i]==0)
+        i++;
+        else
+        {
+            ptr->data=i;
+            --count[i];
+            ptr=ptr->next;
+        }
+    }
+}
+
+int main()
+{
+   create(0);
+   create(1);
+   create(0);
+   create(2);
+   create(2);
+   create(1);
+   Display();
+   sort();
+   cout<<"\n list after sorting \n";
+   Display();
+    return 0;
+}
