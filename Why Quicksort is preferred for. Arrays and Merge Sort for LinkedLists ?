@@ -1,0 +1,13 @@
+
+
+Quicksort depends on being able to index into an array or similar structure. When that's possible, it's hard to beat Quicksort.
+
+But you can't index directly into a linked list very quickly. That is, if myList is a linked list, then myList[x], were it possible to write such syntax, would involve starting at the head of the list and following the first x links. That would have to be done twice for every comparison that Quicksort makes, and that would get expensive real quick.
+
+Same thing on disk: Quicksort would have to seek and read every item it wants to compare.
+
+Merge sort is faster in these situations because it reads the items sequentially, typically making log2(N) passes over the data. There is much less I/O involved, and much less time spent following links in a linked list.
+
+Quicksort is fast when the data fits into memory and can be addressed directly. Mergesort is faster when data won't fit into memory or when it's expensive to get to an item.
+
+Note that large file sorts typically load as much as they can of a file into memory, Quicksort that and write it out to a temporary file, and repeat until it has gone through the entire file. At that point there is some number of blocks, each one of which is sorted, and the program then does a N-way merge to produce the sorted output.
