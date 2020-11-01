@@ -1,0 +1,90 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+   int data;
+   struct node *next;
+   struct node *prev;	
+};
+
+struct node *head=NULL,*newnode,*tail=NULL;
+//function to create a doubly linked list
+void create(int data)
+{
+
+  newnode=new node;
+  newnode->data=data;
+  newnode->prev=NULL;
+  newnode->next=NULL;
+  if(head==NULL)
+  {
+  	head=tail=newnode;
+  }
+  else 
+  {
+  	
+  	tail->next=newnode;
+  	newnode->prev=tail;
+  	tail=newnode;
+  }
+}
+
+//function to display it
+void Display(node *head)
+{
+  while(head!=NULL)
+  {
+  	cout<<head->data<<" ";
+  	head=head->next;
+  }
+}
+
+
+int countpairs(struct node* first,struct node*second,int value){
+  int count=0;
+  while(first!=NULL&&second!=NULL&&first!=second&&second->next!=first)
+  {
+      if(first->data+second->data==value)
+      {
+          count++;
+          first=first->next;
+          second=second->prev;
+      }
+      else if(first->data+second->data>value)
+      second=second->prev;
+      else
+      first=first->next;
+  }
+  return count;
+}
+
+int counttriplet(struct node*head,int x)
+{
+    if(head==NULL)
+    return 0;
+    node *current,*first,*last;
+    int count=0;
+    last=head;
+    while(last->next!=NULL)
+    last=last->next;
+    for(current=head;current!=NULL;current=current->next)
+    {
+        first=current->next;
+        count+=countpairs(first,last,x-current->data);
+    }
+    return count;
+}
+int main()
+{
+    create(1);
+    create(2);
+    create(4);
+    create(5);
+    create(6);
+    create(8);
+    create(9);
+    Display(head);
+    int triplet=counttriplet(head,17);
+    cout<<"\n triplets are : "<<triplet;
+    return 0;
+}
