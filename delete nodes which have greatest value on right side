@@ -1,0 +1,81 @@
+#include <iostream>
+using namespace std;
+struct node{
+    int data;
+    struct node* next;
+};
+struct node *head=NULL;
+
+void create(int data)
+{
+    struct node* temp;
+    struct node* newnode=new node;
+    newnode->data=data;
+    if(head==NULL)
+    head=temp=newnode;
+    else{
+    temp->next=newnode;
+    temp=newnode;
+    }
+}
+
+void display(){
+  node* p=head;
+  while(p!=NULL)
+  {
+      cout<<p->data<<" ";
+      p=p->next;
+  }
+}
+
+void reverse(){
+    node *p=head,*q=NULL,*r=NULL;
+    while(p!=NULL)
+    {
+        r=q;
+        q=p;
+        p=p->next;
+        q->next=r;
+    }
+    head=q;
+}
+
+void deletemin(node *head){
+  struct node *p=head;
+ node *maxnode=head,*temp;
+ 
+  while(p!=NULL&&p->next!=NULL){
+     if(maxnode->data>p->next->data)
+     {
+        temp=p->next;
+        p->next=temp->next;
+        free(temp);
+     }
+     else
+     {
+         p=p->next;
+         maxnode=p;
+     }
+     
+  }
+}
+
+int main()
+{
+   create(12);
+   create(15);
+   create(10);
+   create(11);
+   create(5);
+   create(6);
+   create(2);create(3);
+   display();
+    reverse();
+   deletemin(head);
+   reverse();
+   cout<<"\n list after modification \n";
+   
+   display();
+    
+    return 0;
+}
